@@ -9,6 +9,7 @@ class asset(BaseModel):
     operational_status: str
 
 class metric(BaseModel):
+    asset_id: str
     uptime: str
     downtime: str
     maintenance_cost: int

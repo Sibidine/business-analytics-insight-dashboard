@@ -14,6 +14,7 @@ def individual_serial_assets(asset) -> dict:
 def individual_serial_metrics(metric) -> dict:
     return {
         "id": str(metric["_id"]),
+        "asset_id": str(metric["asset_id"]),
         "uptime": metric["uptime"],
         "downtime": metric["downtime"],
         "maintenance_cost": metric["maintenance_cost"],
