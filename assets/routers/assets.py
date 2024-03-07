@@ -1,6 +1,8 @@
 from fastapi import APIRouter
 from bson import ObjectId
-from assets import schemas, database
+from .. import schemas, database
+from assets.database import asset_collection, metrics_collection
+
 
 
 router = APIRouter(
@@ -10,7 +12,7 @@ router = APIRouter(
 
 @router.get('/{id}')
 def read(id: int):
-    return {'asset number':f'test output {id}'}
+    return schemas.list_serial_assets(asset_collection.find())
 
 @router.delete('/{id}')
 def delete():

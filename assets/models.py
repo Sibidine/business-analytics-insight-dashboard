@@ -8,7 +8,7 @@ class asset(BaseModel):
     initial_cost: int
     operational_status: str
 
-class metrics(BaseModel):
+class metric(BaseModel):
     uptime: str
     downtime: str
     maintenance_cost: int
