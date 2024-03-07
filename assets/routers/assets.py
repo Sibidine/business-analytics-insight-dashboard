@@ -10,18 +10,22 @@ router = APIRouter(
     tags=['assets']
 )
 
-@router.get('/{id}')
-def read(id: int):
+@router.get('/all')
+def read_all():
     return schemas.list_serial_assets(asset_collection.find())
 
+@router.get('/{id}')
+def read_id(id: str):
+    return schemas.individual_serial_assets(asset_collection.find_one({"_id": ObjectId(id)}))
+
 @router.delete('/{id}')
-def delete():
-    return {'asset number': f'remove test {id}'}
+def delete(id: str):
+    asset_collection.find_one_and_delete({"_id": ObjectId(id)})
 
 @router.post('/{id}')
-def create():
-    return {'asset number': f'create test {id}'}
+def create(asset: schemas.asset):
+    asset_collection.insert_one(dict(asset))
 
 @router.put('/{id}')
-def update():
-    return {'asset number': f'remove test {id}'}
+def update(id: str, asset: schemas.asset):
+    asset_collection.find_one_and_update({"_id": ObjectId(id)}, {"$set": dict(asset)})

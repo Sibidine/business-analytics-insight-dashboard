@@ -7,8 +7,8 @@ def individual_serial_assets(asset) -> dict:
         "asset_type": asset["asset_type"],
         "location": asset["location"],
         "purchase_date": asset["purchase_date"],
-        "initial_cose": asset["initial_cost"],
-        "operational_cost": asset["operational_cost"]
+        "initial_cost": asset["initial_cost"],
+        "operational_status": asset["operational_status"]
     }
 
 def individual_serial_metrics(metric) -> dict:
