@@ -14,7 +14,7 @@ def individual_serial_assets(asset) -> dict:
 def individual_serial_metrics(metric) -> dict:
     return {
         "id": str(metric["_id"]),
-        "asset_id": str(metric["asset_id"]),
+        "asset_id": metric["asset_id"],
         "uptime": metric["uptime"],
         "downtime": metric["downtime"],
         "maintenance_cost": metric["maintenance_cost"],
@@ -22,8 +22,18 @@ def individual_serial_metrics(metric) -> dict:
         "efficiency": metric["efficiency"]
     }
 
+def individual_serial_users(user) -> dict:
+    return {
+        "id": str(user["_id"]),
+        "username": user["username"],
+        "password": user["password"]
+    }
+
 def list_serial_assets(asset) -> list:
     return [individual_serial_assets(asset) for asset in asset]
 
 def list_serial_metrics(metrics) ->list:
     return [individual_serial_metrics(metric) for metric in metrics]
+
+def list_serial_users(users) ->list:
+    return [individual_serial_users(user) for user in users]

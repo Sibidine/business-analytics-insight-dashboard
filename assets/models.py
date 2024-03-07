@@ -15,3 +15,17 @@ class metric(BaseModel):
     maintenance_cost: int
     failure_rate: float
     efficiency: float 
+
+class users(BaseModel):
+    username: str
+    password: str
+
+class user_in_db(users):
+    hashed_password: str
+
+class token(BaseModel):
+    access_token: str
+    token_type: str
+
+class token_data(BaseModel):
+    username: str or None = None

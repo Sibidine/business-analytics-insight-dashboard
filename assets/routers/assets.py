@@ -1,6 +1,6 @@
-from fastapi import APIRouter, status, HTTPException
+from fastapi import APIRouter, status, HTTPException, Depends
 from bson import ObjectId
-from .. import schemas, database
+from .. import schemas, database, models, token
 from assets.database import asset_collection
 
 
@@ -26,18 +26,18 @@ def read_id(id: str):
     return query
 
 @router.delete('/{id}',status_code=status.HTTP_204_NO_CONTENT)
-def delete(id: str):
+def delete(id: str, get_current_user: models.users = Depends(token.get_current_user)):
     query = asset_collection.find_one_and_delete({"_id": ObjectId(id)})
     if not query:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail={'detail': f'asset with id {id} does not exist'})
 
 
 @router.post('/{id}',status_code=status.HTTP_201_CREATED)
-def create(asset: schemas.asset):
+def create(asset: schemas.asset, get_current_user: models.users = Depends(token.get_current_user)):
     asset_collection.insert_one(dict(asset))
 
 @router.put('/{id}',status_code=status.HTTP_202_ACCEPTED)
-def update(id: str, asset: schemas.asset):
+def update(id: str, asset: schemas.asset, get_current_user: models.users = Depends(token.get_current_user)):
     query = asset_collection.find_one_and_update({"_id": ObjectId(id)}, {"$set": dict(asset)})
     if not query:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail={'detail': f'asset with id {id} does not exist'})
