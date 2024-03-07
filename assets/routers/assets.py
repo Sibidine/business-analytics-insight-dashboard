@@ -12,15 +12,25 @@ router = APIRouter(
 
 @router.get('/all',status_code=status.HTTP_200_OK)
 def read_all():
-    return schemas.list_serial_assets(asset_collection.find())
+    query = schemas.list_serial_assets(asset_collection.find())
+    if not query:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail={'detail': f'assets do not exist'})
+    return query
+
 
 @router.get('/{id}',status_code=status.HTTP_200_OK)
 def read_id(id: str):
-    return schemas.individual_serial_assets(asset_collection.find_one({"_id": ObjectId(id)}))
+    query = schemas.individual_serial_assets(asset_collection.find_one({"_id": ObjectId(id)}))
+    if not query:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail={'detail': f'asset with id {id} does not exist'})
+    return query
 
 @router.delete('/{id}',status_code=status.HTTP_204_NO_CONTENT)
 def delete(id: str):
-    asset_collection.find_one_and_delete({"_id": ObjectId(id)})
+    query = asset_collection.find_one_and_delete({"_id": ObjectId(id)})
+    if not query:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail={'detail': f'asset with id {id} does not exist'})
+
 
 @router.post('/{id}',status_code=status.HTTP_201_CREATED)
 def create(asset: schemas.asset):
@@ -28,4 +38,6 @@ def create(asset: schemas.asset):
 
 @router.put('/{id}',status_code=status.HTTP_202_ACCEPTED)
 def update(id: str, asset: schemas.asset):
-    asset_collection.find_one_and_update({"_id": ObjectId(id)}, {"$set": dict(asset)})
+    query = asset_collection.find_one_and_update({"_id": ObjectId(id)}, {"$set": dict(asset)})
+    if not query:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail={'detail': f'asset with id {id} does not exist'})
