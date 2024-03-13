@@ -6,3 +6,5 @@ pymongo[zstd]
 pymongo[srv]
 python-jose
 python-multipart
+httpx
+pytest
