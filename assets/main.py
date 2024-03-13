@@ -5,6 +5,7 @@ from . import db_activation
 app = FastAPI()
 db_activation.activate()
 
+
 app.include_router(authentication.router)
 app.include_router(assets.router)
 app.include_router(metrics.router)

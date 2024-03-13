@@ -20,10 +20,10 @@ def read_all():
 
 @router.get('/{id}',status_code=status.HTTP_200_OK)
 def read_id(id: str):
-    query = schemas.individual_serial_assets(asset_collection.find_one({"_id": ObjectId(id)}))
+    query = asset_collection.find_one({"_id": ObjectId(id)})
     if not query:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail={'detail': f'asset with id {id} does not exist'})
-    return query
+    return schemas.individual_serial_assets(query)
 
 @router.delete('/{id}',status_code=status.HTTP_204_NO_CONTENT)
 def delete(id: str, get_current_user: models.users = Depends(token.get_current_user)):
