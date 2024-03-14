@@ -32,7 +32,7 @@ def delete(id: str, get_current_user: models.users = Depends(token.get_current_u
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail={'detail': f'asset with id {id} does not exist'})
 
 
-@router.post('/{id}',status_code=status.HTTP_201_CREATED)
+@router.post('/create',status_code=status.HTTP_201_CREATED)
 def create(asset: schemas.asset, get_current_user: models.users = Depends(token.get_current_user)):
     asset_collection.insert_one(dict(asset))
 

@@ -31,8 +31,8 @@ def delete(id: str,get_current_user: models.users = Depends(token.get_current_us
     if not query:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail={'detail': f'metric with {id} does not exist'})
 
-@router.post('/{id}', status_code= status.HTTP_201_CREATED)
-def create(metrics: schemas.metric,get_current_user: models.users = Depends(token.get_current_user)):
+@router.post('/create/{id}', status_code= status.HTTP_201_CREATED)
+def create_using_asset_id(metrics: schemas.metric,get_current_user: models.users = Depends(token.get_current_user)):
     query = metrics_collection.find_one({"_id": ObjectId(id)})
     if not query:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail={'detail': f'asset with {id} does not exist'})
