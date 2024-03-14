@@ -34,7 +34,9 @@ def delete(id: str, get_current_user: models.users = Depends(token.get_current_u
 
 @router.post('/create',status_code=status.HTTP_201_CREATED)
 def create(asset: schemas.asset, get_current_user: models.users = Depends(token.get_current_user)):
-    asset_collection.insert_one(dict(asset))
+    inserted_result = asset_collection.insert_one(dict(asset))
+    return {'detail': {'insertion': 'successful', 'id': f'{inserted_result.inserted_id}'}}
+    
 
 @router.put('/{id}',status_code=status.HTTP_202_ACCEPTED)
 def update(id: str, asset: schemas.asset, get_current_user: models.users = Depends(token.get_current_user)):

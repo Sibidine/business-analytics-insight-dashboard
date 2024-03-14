@@ -1,6 +1,7 @@
 from datetime import timedelta,datetime, timezone
 from fastapi import APIRouter, Depends,status, HTTPException
 from pydantic import BaseModel
+from . import models
 from .models import users
 from .database import users_collection
 from passlib.context import CryptContext
